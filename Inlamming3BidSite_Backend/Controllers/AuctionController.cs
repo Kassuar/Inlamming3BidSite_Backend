@@ -40,6 +40,21 @@ namespace Inlamming3BidSite_Backend.Controllers
             return Ok (result);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetAuctionById(int id)
+        {
+            var auction =
+                _auctionService
+                .GetAuctionById(id);
+
+            if (auction == null)
+            {
+                return Ok("Auction not found");
+            }
+
+            return Ok(auction);
+        }
+
         [HttpGet("Search")]
         public IActionResult SearchAuction(string title)
         {

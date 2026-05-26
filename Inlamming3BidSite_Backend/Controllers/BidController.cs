@@ -1,4 +1,5 @@
 ﻿using Inlamming3BidSite_Backend.Core.Interfaces;
+using Inlamming3BidSite_Backend.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,29 @@ namespace Inlamming3BidSite_Backend.Controllers
             bidService = _bidService;
         }
 
-        [HttpPost ("Bid")]
+        [HttpPost("Bid")]
+
+        public IActionResult CreateBid( BidsDTO bidsDTO)
+        {
+            var bid =_bidService.CreateBid(bidsDTO);
+
+            return Ok(bid);
+        }
+
+        [HttpGet("{auctionId}")]
+        public IActionResult GetAllBidsForAuction(int auctionId)
+        {
+            var bids = _bidService.GetAllBidsForAuction(auctionId);
+
+            if (!bids.Any())
+            {
+                return Ok(
+                    "No bids found");
+            }
+
+            return Ok(bids);
+
+
+        }
     }
 }

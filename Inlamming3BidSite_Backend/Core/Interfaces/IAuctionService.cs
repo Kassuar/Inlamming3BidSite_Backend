@@ -7,9 +7,12 @@ namespace Inlamming3BidSite_Backend.Core.Interfaces
     {
         Auction CreateAuction(AuctionDTO auctionDTO);
 
+     
         List<Auction> GetAllAuctions();
 
-        List <Auction> SearchAuction(string title);
+        Auction GetAuctionById(int id);
+
+       List<Auction> SearchAuction(string tile);
 
 
     }

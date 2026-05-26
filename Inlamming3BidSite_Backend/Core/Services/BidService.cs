@@ -19,38 +19,24 @@ namespace Inlamming3BidSite_Backend.Core.Services
         }
         public Bid CreateBid(BidsDTO bidsDTO)
         {
-            var auction = _auctionRepo.GetAuctionById(bidsDTO.AuctionTitle);
+            var auction = _auctionRepo.GetAuctionById(bidsDTO.AuctionId);
 
-            try
-            {
+         
                 if (auction == null)
                 {
                     throw new Exception("Auction not found.");
                 }
-            }
+        
 
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
-
-            try
-            {
+            
+            
 
                 if (auction.UserId == bidsDTO.UserId)
                 {
                     throw new Exception("You cannot bid on your own auction.");
                 }
 
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
-            try
-            {
+    
 
 
                 if (auction.CurrentPrice >= bidsDTO.BidAmount)
@@ -59,28 +45,14 @@ namespace Inlamming3BidSite_Backend.Core.Services
                 }
 
 
-            }
-
-
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
-            try
-            {
+           
 
                 if (auction.EndTime <= DateTime.UtcNow)
                 {
                     throw new Exception("Auction has already ended.");
                 }
 
-            }
-
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+ 
 
 
             var bid = new Bid
@@ -88,10 +60,15 @@ namespace Inlamming3BidSite_Backend.Core.Services
                 BidAmount = bidsDTO.BidAmount,
                 Timestamp = DateTime.Now,
                 UserId = bidsDTO.UserId,
-                AuctionId = bidsDTO.AuctionTitle
+                AuctionId = bidsDTO.AuctionId
             };
 
+            auction.CurrentPrice = bidsDTO.BidAmount;
+            _auctionRepo.Save();
+
             return bid;
+
+          
 
 
 

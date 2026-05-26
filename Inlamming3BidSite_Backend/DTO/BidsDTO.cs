@@ -3,7 +3,7 @@
     public class BidsDTO
 
     {
-        public int AuctionTitle { get; set; }
+        public int AuctionId { get; set; }
 
         public int UserId { get; set; }
 

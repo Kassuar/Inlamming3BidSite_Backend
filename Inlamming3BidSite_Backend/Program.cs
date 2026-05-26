@@ -5,11 +5,13 @@ using Inlamming3BidSite_Backend.Data;
 using Inlamming3BidSite_Backend.Data.Interfaces;
 using Inlamming3BidSite_Backend.Data.Repo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 
 // Controllers
@@ -57,6 +59,32 @@ builder.Services.AddScoped<IUserService, UserService>();
  
 
 var app = builder.Build();
+
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.StatusCode = 400;
+        context.Response.ContentType =
+            "application/json";
+
+        var feature = context.Features
+            .Get<IExceptionHandlerFeature>();
+
+        if (feature != null)
+        {
+            await context.Response
+                .WriteAsJsonAsync(
+                new
+                {
+                    Message =
+                    feature.Error.Message
+                });
+        }
+    });
+});
+
 
 // Swagger
 app.UseSwagger();

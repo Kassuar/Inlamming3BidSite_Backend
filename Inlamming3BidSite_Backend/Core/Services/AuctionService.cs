@@ -37,9 +37,10 @@ namespace Inlamming3BidSite_Backend.Core.Services
                 .ToList();
         }
 
-
-        
-
+        public Auction GetAuctionById(int id)
+        {
+            return _auctionRepo.GetAuctionById(id);
+        }
         
         List<Auction> IAuctionService.SearchAuction(string title)
         {

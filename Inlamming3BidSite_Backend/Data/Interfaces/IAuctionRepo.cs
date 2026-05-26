@@ -11,8 +11,8 @@ namespace Inlamming3BidSite_Backend.Data.Interfaces
 
        Auction GetAuctionById(int id);
 
-       List<Auction> SearchAuctions (string keyword);
-      
+       void Save();
+
 
 
 
